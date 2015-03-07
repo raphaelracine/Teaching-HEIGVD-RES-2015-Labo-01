@@ -32,7 +32,6 @@ public class Application implements IApplication {
   private static final Logger LOG = Logger.getLogger(Application.class.getName());
   
   public static void main(String[] args) {
-    
     /*
      * I prefer to have LOG output on a single line, it's easier to read. Being able
      * to change the formatting of console outputs is one of the reasons why it is
@@ -92,6 +91,8 @@ public class Application implements IApplication {
        * one method provided by this class, which is responsible for storing the content of the
        * quote in a text file (and for generating the directories based on the tags).
        */
+      storeQuote(quote, "quote-" + i + ".utf8");
+      
       LOG.info(quote.getSource());
       for (String tag : quote.getTags()) {
         LOG.info("> " + tag);
@@ -124,8 +125,29 @@ public class Application implements IApplication {
    * @param filename the name of the file to create and where to store the quote text
    * @throws IOException 
    */
-  void storeQuote(Quote quote, String filename) throws IOException {
-    throw new UnsupportedOperationException("The student has not implemented this method yet.");
+  void storeQuote(Quote quote, String filename) throws IOException {     
+     // Generate the directory according to quote's tags
+     String directory = WORKSPACE_DIRECTORY; // The directory of the file     
+     for(String tag : quote.getTags())
+        directory += "/" + tag;
+     directory += "/";
+     
+     /* Force Operating System to create directory */
+     FileUtils.forceMkdir(new File(directory));
+     
+     // Writing quote in file
+     FileOutputStream fos = null;
+     
+     try {
+        fos = new FileOutputStream(directory + filename);
+        fos.write(quote.getQuote().getBytes());
+     }
+     catch (IOException e) {
+        Logger.getLogger(Application.class.getName()).log(Level.SEVERE, null, e);
+     }
+     finally {
+        fos.close();
+     }
   }
   
   /**
@@ -142,13 +164,19 @@ public class Application implements IApplication {
          * of the the IFileVisitor interface inline. You just have to add the body of the visit method, which should
          * be pretty easy (we want to write the filename, including the path, to the writer passed in argument).
          */
+         try {
+            writer.write(file.getPath() + file.getName());
+         }
+         catch(IOException e) {
+            Logger.getLogger(Application.class.getName()).log(Level.SEVERE, null, e);
+         }
       }
     });
   }
   
   @Override
   public String getAuthorEmail() {
-    throw new UnsupportedOperationException("The student has not implemented this method yet.");
+     return "raphael.racine@heig-vd.ch";
   }
 
   @Override
