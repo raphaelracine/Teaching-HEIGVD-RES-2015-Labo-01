@@ -4,6 +4,8 @@ import ch.heigvd.res.lab01.interfaces.IFileExplorer;
 import ch.heigvd.res.lab01.interfaces.IFileVisitor;
 import java.io.File;
 
+import java.util.LinkedList;
+
 /**
  * This implementation of the IFileExplorer interface performs a depth-first
  * exploration of the file system and invokes the visitor for every encountered node
@@ -16,12 +18,24 @@ public class DFSFileExplorer implements IFileExplorer {
 
    @Override
    public void explore(File rootDirectory, IFileVisitor visitor) {
-      visitor.visit(rootDirectory);
-      File[] files = rootDirectory.listFiles();
       
-      if (files != null) {
-         for (File file : files)
-            explore(file, visitor);
+      File[] listFiles = rootDirectory.listFiles();
+      visitor.visit(rootDirectory);
+
+      if (listFiles != null) {
+         
+         for (File f : listFiles) {
+            if (f.isFile())
+               visitor.visit(f);
+         }
+
+         for (File f : listFiles) {
+            if (f.isDirectory()) {
+               explore(f, visitor);
+            }
+
+         }
+
       }
    }
 }

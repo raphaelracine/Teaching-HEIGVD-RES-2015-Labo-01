@@ -133,7 +133,8 @@ public class Application implements IApplication {
      directory += "/";
      
      /* Force Operating System to create directory */
-     FileUtils.forceMkdir(new File(directory));
+     File f = new File(directory);
+     f.mkdirs();
      
      // Writing quote in file
      FileOutputStream fos = null;
@@ -165,7 +166,7 @@ public class Application implements IApplication {
          * be pretty easy (we want to write the filename, including the path, to the writer passed in argument).
          */
          try {
-            writer.write(file.getPath() + file.getName());
+            writer.write(file.getPath().replace('\\', '/') + "\r\n");
          }
          catch(IOException e) {
             Logger.getLogger(Application.class.getName()).log(Level.SEVERE, null, e);

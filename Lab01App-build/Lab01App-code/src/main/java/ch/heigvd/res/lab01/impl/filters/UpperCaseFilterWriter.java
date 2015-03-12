@@ -28,9 +28,5 @@ public class UpperCaseFilterWriter extends FilterWriter {
   public void write(int c) throws IOException {
      out.write(Character.toUpperCase(c));
   }
-  
-  /* Bien implémenter chacune des 3 méthodes */
-  /* Implementer uppercasefilterWriter */
-  /* Avant de propager l'appel sur le flux de sortie décoré, on convertit ces valeurs en uppercase */
 
 }
