@@ -61,7 +61,7 @@ public abstract class FileTransformer implements IFileVisitor {
       final int BUFFER_SIZE = 512;
       
       char[] buffer = new char[BUFFER_SIZE];
-      int readBytes = 0;
+      int readBytes;
       
       /* -1 means end of file */
       while((readBytes = reader.read(buffer)) != -1) {

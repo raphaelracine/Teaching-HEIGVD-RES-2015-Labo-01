@@ -20,7 +20,7 @@ public class Utils {
    * contain any line separator, then the first element is an empty string.
    */
   public static String[] getNextLine(String lines) {
-     String[] endLineMarks = new String[]{"\r\n", "\r", "\n"};
+     String[] endLineMarks = new String[]{"\n", "\r"};
      int index;
      
      for(String s : endLineMarks)
