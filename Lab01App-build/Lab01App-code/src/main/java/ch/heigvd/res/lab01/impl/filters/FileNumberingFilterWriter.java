@@ -19,7 +19,7 @@ public class FileNumberingFilterWriter extends FilterWriter {
 
    private static final Logger LOG = Logger.getLogger(FileNumberingFilterWriter.class.getName());
    private long lineNumber = 1;
-   private char previousChar;
+   private char previousChr;
 
    public FileNumberingFilterWriter(Writer out) {
       super(out);
@@ -27,7 +27,6 @@ public class FileNumberingFilterWriter extends FilterWriter {
 
    @Override
    public void write(String str, int off, int len) throws IOException {
-      String subStr = str.substring(off, off + len);
       String nextLine[] = Utils.getNextLine(str.substring(off, off + len));
       String s = "";
       
@@ -49,7 +48,17 @@ public class FileNumberingFilterWriter extends FilterWriter {
    }
 
    @Override
-   public void write(int c) throws IOException {      
-      throw new UnsupportedOperationException("NON DEVELOPPE ENCORE");
+   public void write(int c) throws IOException { 
+      char chr = Character.toChars(c)[0]; 
+      
+      String s = "";
+      
+      if(lineNumber == 1
+              || previousChr == '\n'
+              || (previousChr == '\r' && chr != '\n'))
+         s += (lineNumber++) + "\t";
+      
+      out.write(s + chr);      
+      previousChr = chr;
    }
 }
